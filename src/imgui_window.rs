@@ -1,6 +1,5 @@
-use imgui::DrawData;
+use imgui::{Context, DrawData, Window, WindowFlags, WindowToken};
 use xplm;
-use util;
 
 struct Vertex {
     position: [f32; 2],
@@ -12,17 +11,55 @@ struct ImguiWindow {
     right: u16,
     bottom: u16,
     xplm_graphics_state: xplm::draw::GraphicsState,
+    window_title: String,
 }
 
 impl ImguiWindow {
-    fn new(left: u16, top: u16, right: u16, bottom: u16, xplm_graphics_state: xplm::draw::GraphicsState, ) -> ImguiWindow {
+    fn new(
+        left: u16,
+        top: u16,
+        right: u16,
+        bottom: u16,
+        xplm_graphics_state: xplm::draw::GraphicsState,
+        window_title: String,
+    ) -> ImguiWindow {
         ImguiWindow {
             left,
             top,
             right,
             bottom,
             xplm_graphics_state,
+            window_title,
         }
+    }
+
+    /**
+     * 1) Transfer XP window geometry to ImGui
+     * 2) Construct the window
+     * 3) Handle window focus
+     */
+
+    fn update_ui(&self, ctx: &mut imgui::Context, xplane_window: &xplm::window::Window) {
+        //returns tuple of (left, top, right, bottom)
+        let geometry = xplane_window.geometry().into_left_top_bottom_right();
+        let window_width = geometry.2 - geometry.0;
+        let window_height = geometry.1 - geometry.3;
+
+        let ui = ctx.frame();
+
+        let window = Window::new(String::from(&self.window_title));
+        window.title_bar(false);
+        window.resizable(false);
+        window.collapsible(false);
+        let token = window.begin(&ui).unwrap();
+
+        {
+            //build interface here
+        }
+
+        token.end();
+
+        //TODO: handle window focus
     }
 
     fn render_ui(&mut self, imgui_draw_data: DrawData) {
@@ -39,9 +76,6 @@ impl ImguiWindow {
         for (i, list) in imgui_draw_data.draw_lists().enumerate() {
             let vtx_buffer = list.vtx_buffer();
             let idx_buffer = list.idx_buffer();
-
-            let boxel = crate::util::translate_imgui_to_boxels();
-
         }
     }
 }
