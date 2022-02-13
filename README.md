@@ -1,17 +1,17 @@
-#libimgui-rs
+# libimgui-rs
 
-##Purpose
+## Purpose
 
 Provides a convenient wrapper for X-Plane 11 plugin developers using [xplm-rust](https://github.com/samcrow/rust-xplm) to easily integrate imgui-rs (Rust bindings for dear imgui) into their plugins
 
-##Examples 
+## Examples 
 Coming soon
 
-##License
+## License
 
 All code is licensed under the Apache License, Version 2.0
 
-##Contributing
+## Contributing
 
 - Use semantic commit types as a prefix to your commit message
   - feat (feature): [message]
